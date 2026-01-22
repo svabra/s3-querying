@@ -125,7 +125,11 @@ SELECT * FROM s3_scan('s3://lake/path/to/file.parquet');
 - **Count records**: `duckdb/bench_count_records.sql`
 - **Stay duration**: `duckdb/bench_stay_duration.sql`
 - **Frequent crossers**: `duckdb/bench_frequent_crossers.sql`
-- **Pattern**: run one file at a time from Windows using `Get-Content <file> | docker exec -i evo1-duckdb duckdb /data/duckdb.db`
+- **Partition country counts**: `duckdb/bench_partition_country_counts.sql`
+- **Timestamp quantiles**: `duckdb/bench_ts_quantiles.sql`
+- **Vehicle history lookup**: `duckdb/bench_vehicle_history_lookup.sql`
+- **Time window count**: `duckdb/bench_time_window_count.sql`
+- **Pattern**: run one file at a time from Windows using `Get-Content duckdb\... | docker exec -i evo1-duckdb duckdb /data/duckdb.db`
 
 ### Generating fresh data
 1. Create tables: `Get-Content pg\schema.sql | docker exec -i evo1-postgres psql -U demo -d demo`

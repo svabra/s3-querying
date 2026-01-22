@@ -62,6 +62,22 @@ Get-Content duckdb\bench_stay_duration.sql | docker exec -i evo1-duckdb duckdb /
 Get-Content duckdb\bench_frequent_crossers.sql | docker exec -i evo1-duckdb duckdb /data/duckdb.db
 ```
 
+```
+Get-Content duckdb\bench_partition_country_counts.sql | docker exec -i evo1-duckdb duckdb /data/duckdb.db
+```
+
+```
+Get-Content duckdb\bench_ts_quantiles.sql | docker exec -i evo1-duckdb duckdb /data/duckdb.db
+```
+
+```
+Get-Content duckdb\bench_vehicle_history_lookup.sql | docker exec -i evo1-duckdb duckdb /data/duckdb.db
+```
+
+```
+Get-Content duckdb\bench_time_window_count.sql | docker exec -i evo1-duckdb duckdb /data/duckdb.db
+```
+
 ## Create indexes after ingest
 Build indexes only after the data load is complete:
 

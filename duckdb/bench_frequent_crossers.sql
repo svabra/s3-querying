@@ -4,6 +4,8 @@
 -- B) "Show all vehicles crossing more than N times
 --     in a window of D days starting from Date T"
 -- Edit bench_params below to change the window.
+-- Execution focus: time-window filter + group-by + HAVING + sort.
+-- Showcases: partition pruning on S3 date partitions vs row-streamed PG scan.
 -- Host (Windows): Get-Content duckdb\bench_frequent_crossers.sql | docker exec -i evo1-duckdb duckdb /data/duckdb.db
 
 -- Parameters for B) (edit these per benchmark run)
