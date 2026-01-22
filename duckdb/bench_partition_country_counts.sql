@@ -4,6 +4,7 @@
 -- Partition-filtered country counts (PG vs S3)
 -- Execution focus: partition pruning on S3 date partitions.
 -- Showcases: narrow date window + group-by; S3 should read fewer files.
+-- Expected winner: S3 (partition pruning on date).
 -- Host (Windows): Get-Content duckdb\bench_partition_country_counts.sql | docker exec -i evo1-duckdb duckdb /data/duckdb.db
 
 CREATE OR REPLACE TEMP VIEW bench_params AS

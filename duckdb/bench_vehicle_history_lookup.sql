@@ -4,6 +4,7 @@
 -- Vehicle history lookup (PG vs S3)
 -- Execution focus: selective lookup by (country, plate).
 -- Showcases: indexed-style point lookups in PG vs full scan filtering in S3.
+-- Expected winner: S3 (DuckDB postgres_scan overhead dominates here).
 -- Host (Windows): Get-Content duckdb\bench_vehicle_history_lookup.sql | docker exec -i evo1-duckdb duckdb /data/duckdb.db
 
 CREATE OR REPLACE TEMP VIEW bench_params AS

@@ -4,6 +4,7 @@
 -- Timestamp quantiles on incoming events (PG vs S3)
 -- Execution focus: columnar scan of a single column with aggregates.
 -- Showcases: minimal column projection; S3 reads only ts from Parquet.
+-- Expected winner: S3 (single-column Parquet scan).
 -- Host (Windows): Get-Content duckdb\bench_ts_quantiles.sql | docker exec -i evo1-duckdb duckdb /data/duckdb.db
 
 SELECT 'Question: Timestamp quantiles for incoming events (PG vs S3)' AS info;

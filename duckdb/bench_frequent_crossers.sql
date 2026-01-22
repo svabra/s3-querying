@@ -6,6 +6,7 @@
 -- Edit bench_params below to change the window.
 -- Execution focus: time-window filter + group-by + HAVING + sort.
 -- Showcases: partition pruning on S3 date partitions vs row-streamed PG scan.
+-- Expected winner: S3 (partition pruning on date).
 -- Host (Windows): Get-Content duckdb\bench_frequent_crossers.sql | docker exec -i evo1-duckdb duckdb /data/duckdb.db
 
 -- Parameters for B) (edit these per benchmark run)

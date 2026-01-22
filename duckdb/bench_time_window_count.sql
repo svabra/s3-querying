@@ -4,6 +4,7 @@
 -- Narrow time-window count (PG vs S3)
 -- Execution focus: selective time-range filter on ts.
 -- Showcases: time-window filtering and potential pushdown differences.
+-- Expected winner: S3 (DuckDB postgres_scan overhead dominates here).
 -- Host (Windows): Get-Content duckdb\bench_time_window_count.sql | docker exec -i evo1-duckdb duckdb /data/duckdb.db
 
 CREATE OR REPLACE TEMP VIEW bench_params AS

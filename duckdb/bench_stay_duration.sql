@@ -7,6 +7,7 @@
 --   using a windowed "min outgoing ts from current row forward".
 -- Execution focus: window functions + sort-heavy analytic workload.
 -- Showcases: columnar scan + vectorized windows (S3) vs row-streamed windows (PG).
+-- Expected winner: S3 (columnar + vectorized analytic scan).
 -- Host (Windows): Get-Content duckdb\bench_stay_duration.sql | docker exec -i evo1-duckdb duckdb /data/duckdb.db
 
 SELECT 'Question: How long are vehicles staying in Switzerland? (PG vs S3)' AS info;
