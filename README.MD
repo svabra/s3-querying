@@ -47,6 +47,21 @@ Why this matters:
 - Timestamps are mostly sequential to simulate ingestion order, with a few misplaced rows to model anomalies.
 - Country codes are written as ISO-1, and license plates mirror that prefix.
 
+## Benchmarks (run individually)
+Run each benchmark from the Windows host with a focused SQL file:
+
+```
+Get-Content duckdb\bench_count_records.sql | docker exec -i evo1-duckdb duckdb /data/duckdb.db
+```
+
+```
+Get-Content duckdb\bench_stay_duration.sql | docker exec -i evo1-duckdb duckdb /data/duckdb.db
+```
+
+```
+Get-Content duckdb\bench_frequent_crossers.sql | docker exec -i evo1-duckdb duckdb /data/duckdb.db
+```
+
 ## Create indexes after ingest
 Build indexes only after the data load is complete:
 

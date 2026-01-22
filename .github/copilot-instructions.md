@@ -121,6 +121,12 @@ SELECT * FROM s3_scan('s3://lake/path/to/file.parquet');
 3. Write query using `s3_scan()` or `postgres_scan()`
 4. Join/transform as needed
 
+### Benchmark SQL files
+- **Count records**: `duckdb/bench_count_records.sql`
+- **Stay duration**: `duckdb/bench_stay_duration.sql`
+- **Frequent crossers**: `duckdb/bench_frequent_crossers.sql`
+- **Pattern**: run one file at a time from Windows using `Get-Content <file> | docker exec -i evo1-duckdb duckdb /data/duckdb.db`
+
 ### Generating fresh data
 1. Create tables: `Get-Content pg\schema.sql | docker exec -i evo1-postgres psql -U demo -d demo`
 2. Generate events: `python .\generate_vehicles.py --days 10`
