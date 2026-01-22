@@ -6,6 +6,20 @@
 -- Edit bench_params below to change the window.
 -- Host (Windows): Get-Content duckdb\bench_frequent_crossers.sql | docker exec -i evo1-duckdb duckdb /data/duckdb.db
 
+-- Parameters for B) (edit these per benchmark run)
+CREATE OR REPLACE TEMP VIEW bench_params AS
+SELECT
+  DATE '2025-01-01' AS my_T,
+  30 AS my_D,
+  20 AS my_N;
+
+SELECT 'Question: Vehicles crossing more than N times in D days from T (PG vs S3)' AS info;
+SELECT
+  'Args: T=' || CAST(my_T AS VARCHAR) ||
+  ', D=' || CAST(my_D AS VARCHAR) ||
+  ', N=' || CAST(my_N AS VARCHAR) AS info
+FROM bench_params;
+
 -- Define sources: Postgres
 CREATE OR REPLACE VIEW pg_in AS
 SELECT * FROM postgres_scan(
@@ -50,13 +64,6 @@ FROM s3_in
 UNION ALL
 SELECT ts, country_of_registration AS country, license_plate AS plate, 'outgoing' AS dir
 FROM s3_out;
-
--- Parameters for B) (edit these per benchmark run)
-CREATE OR REPLACE TEMP VIEW bench_params AS
-SELECT
-  DATE '2025-01-01' AS my_T,
-  30 AS my_D,
-  20 AS my_N;
 
 -- B1) PG: filter window then count
 SELECT

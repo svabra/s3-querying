@@ -7,6 +7,9 @@
 --   using a windowed "min outgoing ts from current row forward".
 -- Host (Windows): Get-Content duckdb\bench_stay_duration.sql | docker exec -i evo1-duckdb duckdb /data/duckdb.db
 
+SELECT 'Question: How long are vehicles staying in Switzerland? (PG vs S3)' AS info;
+SELECT 'Args: none' AS info;
+
 -- Define sources: Postgres
 CREATE OR REPLACE VIEW pg_in AS
 SELECT * FROM postgres_scan(

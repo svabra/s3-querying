@@ -4,6 +4,9 @@
 -- Count incoming records in PG vs S3
 -- Host (Windows): Get-Content duckdb\bench_count_records.sql | docker exec -i evo1-duckdb duckdb /data/duckdb.db
 
+SELECT 'Question: Count incoming records (PG vs S3)' AS info;
+SELECT 'Args: none' AS info;
+
 SELECT
   'count.PG' AS case_src,
   count(*) AS rows
