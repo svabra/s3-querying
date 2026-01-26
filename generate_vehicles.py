@@ -529,6 +529,12 @@ def main():
     ap.add_argument("--pg-db", type=str, default="demo")
     ap.add_argument("--pg-user", type=str, default="demo")
     ap.add_argument("--pg-pass", type=str, default="demo")
+    ap.add_argument(
+        "--pg-target",
+        action="append",
+        default=[],
+        help="additional Postgres DSN to mirror writes to (repeatable)",
+    )
 
     # S3/MinIO
     ap.add_argument("--s3-endpoint", type=str, default="http://localhost:9000")
@@ -562,14 +568,16 @@ def main():
         n_smugglers=args.smugglers,
     )
 
-    pg_conn = psycopg.connect(
-        host=args.pg_host,
-        port=args.pg_port,
-        dbname=args.pg_db,
-        user=args.pg_user,
-        password=args.pg_pass,
-        autocommit=True,
+    primary_dsn = (
+        f"postgresql://{args.pg_user}:{args.pg_pass}"
+        f"@{args.pg_host}:{args.pg_port}/{args.pg_db}"
     )
+    pg_targets = [primary_dsn]
+    for target in args.pg_target:
+        if target not in pg_targets:
+            pg_targets.append(target)
+
+    pg_conns = [psycopg.connect(dsn, autocommit=True) for dsn in pg_targets]
 
     s3cfg = S3Config(
         endpoint=args.s3_endpoint,
@@ -611,9 +619,13 @@ def main():
 
         t_pg = time.perf_counter()
         for off in range(0, len(incoming), args.chunk_rows):
-            insert_postgres_copy(pg_conn, "vehicles_incoming", incoming.iloc[off:off + args.chunk_rows])
+            chunk = incoming.iloc[off:off + args.chunk_rows]
+            for conn in pg_conns:
+                insert_postgres_copy(conn, "vehicles_incoming", chunk)
         for off in range(0, len(outgoing), args.chunk_rows):
-            insert_postgres_copy(pg_conn, "vehicles_outgoing", outgoing.iloc[off:off + args.chunk_rows])
+            chunk = outgoing.iloc[off:off + args.chunk_rows]
+            for conn in pg_conns:
+                insert_postgres_copy(conn, "vehicles_outgoing", chunk)
         pg_elapsed = time.perf_counter() - t_pg
         pg_total += pg_elapsed
 
@@ -634,7 +646,8 @@ def main():
             flush=True,
         )
 
-    pg_conn.close()
+    for conn in pg_conns:
+        conn.close()
 
     print("\n--- ingest timings (informational only) ---", flush=True)
     print(f"Total wall time: {time.perf_counter() - run_start:.2f}s", flush=True)

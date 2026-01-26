@@ -31,6 +31,11 @@ Create the tables in Postgres before generating data:
 ```
 Get-Content pg\schema.sql | docker exec -i evo1-postgres psql -U demo -d demo
 ```
+For the extra Postgres candidates:
+```
+Get-Content pg\schema.sql | docker exec -i evo1-postgres-pgduckdb psql -U demo -d demo
+Get-Content pg\schema.sql | docker exec -i evo1-postgres-timescaledb psql -U demo -d demo
+```
 
 Why this matters:
 - The tables are UNLOGGED to speed up bulk ingest during experiments.
@@ -41,6 +46,10 @@ Generate synthetic vehicle events into Postgres and S3:
 
 ```
 python .\generate_vehicles.py --days 10
+```
+Mirror writes into the extra Postgres candidates:
+```
+python .\generate_vehicles.py --days 10 --pg-target postgresql://demo:demo@localhost:55433/demo --pg-target postgresql://demo:demo@localhost:55434/demo
 ```
 
 Why this matters:
@@ -83,6 +92,11 @@ Build indexes only after the data load is complete:
 
 ```
 Get-Content pg\indexes.sql | docker exec -i evo1-postgres psql -U demo -d demo
+```
+For the extra Postgres candidates:
+```
+Get-Content pg\indexes.sql | docker exec -i evo1-postgres-pgduckdb psql -U demo -d demo
+Get-Content pg\indexes.sql | docker exec -i evo1-postgres-timescaledb psql -U demo -d demo
 ```
 
 Why this matters:

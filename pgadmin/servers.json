@@ -8,6 +8,24 @@
       "MaintenanceDB": "demo",
       "Username": "demo",
       "SSLMode": "prefer"
+    },
+    "2": {
+      "Name": "evo1-postgres-pgduckdb",
+      "Group": "Servers",
+      "Host": "postgres_pg_duckdb",
+      "Port": 5432,
+      "MaintenanceDB": "demo",
+      "Username": "demo",
+      "SSLMode": "prefer"
+    },
+    "3": {
+      "Name": "evo1-postgres-timescaledb",
+      "Group": "Servers",
+      "Host": "postgres_timescaledb",
+      "Port": 5432,
+      "MaintenanceDB": "demo",
+      "Username": "demo",
+      "SSLMode": "prefer"
     }
   }
 }

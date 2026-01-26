@@ -16,6 +16,41 @@ services:
       timeout: 3s
       retries: 20
 
+  postgres_pg_duckdb:
+    image: pgduckdb/pgduckdb:17-main
+    container_name: evo1-postgres-pgduckdb
+    environment:
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: demo
+      POSTGRES_DB: demo
+    ports:
+      - "55433:5432"   # host -> container
+    volumes:
+      - pg_duckdb_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U demo -d demo"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  postgres_timescaledb:
+    image: timescale/timescaledb:latest-pg17
+    container_name: evo1-postgres-timescaledb
+    environment:
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: demo
+      POSTGRES_DB: demo
+      TIMESCALEDB_TELEMETRY: "off"
+    ports:
+      - "55434:5432"   # host -> container
+    volumes:
+      - pg_timescaledb_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U demo -d demo"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
   pgadmin:
     image: dpage/pgadmin4:9
     container_name: evo1-pgadmin
@@ -79,6 +114,10 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      postgres_pg_duckdb:
+        condition: service_healthy
+      postgres_timescaledb:
+        condition: service_healthy
       minio:
         condition: service_healthy
       minio_init:
@@ -91,5 +130,7 @@ services:
 
 volumes:
   pg_data:
+  pg_duckdb_data:
+  pg_timescaledb_data:
   pgadmin_data:
   minio_data:

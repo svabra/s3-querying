@@ -1,2 +1,6 @@
 postgres:5432:*:demo:demo
+postgres_pg_duckdb:5432:*:demo:demo
+postgres_timescaledb:5432:*:demo:demo
 localhost:55432:*:demo:demo
+localhost:55433:*:demo:demo
+localhost:55434:*:demo:demo
